@@ -55,11 +55,8 @@ void setup() {
     pinMode(BIN2, OUTPUT);
     pinMode(PWMB, OUTPUT);
 
-    ledcSetup(PWM_CHANNEL_A, 1000, 8);
-    ledcAttachPin(PWMA, PWM_CHANNEL_A);
-
-    ledcSetup(PWM_CHANNEL_B, 1000, 8);
-    ledcAttachPin(PWMB, PWM_CHANNEL_B);
+    ledcAttach(PWM_CHANNEL_A, 1000, 8);
+    ledcAttach(PWM_CHANNEL_B, 1000, 8);
 }
 
 void loop() {
