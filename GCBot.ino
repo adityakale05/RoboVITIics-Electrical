@@ -1,16 +1,18 @@
 #include <Arduino.h>
-#include <WiFi.h>
-#include <WiFiUdp.h>
+#include<WiFi.h>
+#include<WiFiUdp.h>
 
 #define AIN1 26
 #define AIN2 25
-#define PWMA 33
+#define PWMA 33  
 
+// Motor B pins
 #define BIN1 14
 #define BIN2 12
-#define PWMB 13
+#define PWMB 13  
 
 #define STDBY 27
+
 
 #define PWM_CHANNEL_A 0
 #define PWM_CHANNEL_B 1
@@ -21,6 +23,7 @@ void right(int spd);
 void forward(int spd);
 void back(int spd);
 void stop();
+
 
 const char* ssid = "Robot";
 const char* password = "adk05eie";
@@ -36,6 +39,7 @@ char incomingPacket[255];
 unsigned long previousMillis = 0;
 const long interval = 500; 
 int packetSize = 0;
+
 
 void setup() {
     Serial.begin(9600);
@@ -54,9 +58,10 @@ void setup() {
     pinMode(BIN1, OUTPUT);
     pinMode(BIN2, OUTPUT);
     pinMode(PWMB, OUTPUT);
-
+  
     ledcAttach(PWM_CHANNEL_A, 1000, 8);
     ledcAttach(PWM_CHANNEL_B, 1000, 8);
+
 }
 
 void loop() {
@@ -95,7 +100,7 @@ void loop() {
       } 
       delay(300);
   }
-  else {
+  else{
     stop();
     Serial.println("Data not recieved");
     delay(300);
@@ -103,22 +108,22 @@ void loop() {
 }
 
 void runMotor(int motor, int spd, int dir) {
-  digitalWrite(STDBY, HIGH);
+  digitalWrite(STDBY, HIGH); 
 
   boolean dirPin1 = LOW;
   boolean dirPin2 = HIGH;
 
-  if (dir == 1) {
+  if(dir == 1) {
     dirPin1 = HIGH;
     dirPin2 = LOW;
   }
 
-  if (motor == 0) {
+  if(motor == 0) {  
     digitalWrite(AIN1, dirPin1);
     digitalWrite(AIN2, dirPin2);
     ledcWrite(PWM_CHANNEL_A, spd);
   } 
-  else {
+  else {          
     digitalWrite(BIN1, dirPin1);
     digitalWrite(BIN2, dirPin2);
     ledcWrite(PWM_CHANNEL_B, spd);
@@ -148,4 +153,3 @@ void back(int spd) {
 void stop() {
   digitalWrite(STDBY, LOW);
 }
-
